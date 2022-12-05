@@ -1,6 +1,6 @@
 # Lazy Loading Pattern
 import mysql.connector
-
+import os, psutil
 class RecordList:
     def getUserList(self):
         pass
@@ -48,11 +48,12 @@ class User:
     def __str__(self):
         return f"ID: {self.id} | Name: {self.name}\t | Age: {self.age}"
 
-
+print(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2)
 # driver code
 recordList = RecordListProxy()
 
 print('\nFeching user list...\n')
 usrList = recordList.getUserList() # this will load the data from the database
-for usr in usrList:
-    print(usr)
+print(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2)
+for x in range(6):
+    print(usrList[x])
