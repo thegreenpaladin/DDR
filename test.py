@@ -1,6 +1,9 @@
 # Lazy Loading Pattern
 import mysql.connector
-import os, psutil
+import os
+import psutil
+
+
 class RecordList:
     def getUserList(self):
         pass
@@ -8,7 +11,8 @@ class RecordList:
 
 class RecordListImplemented(RecordList):
     def __init__(self) -> None:
-        self.mydb = mysql.connector.connect(host="localhost",user="root",password="",database="ddrproject")
+        self.mydb = mysql.connector.connect(
+            host="localhost", user="root", password="", database="ddrproject")
         self.mycursor = self.mydb.cursor()
         self.mycursor.execute("SELECT * FROM records")
 
@@ -18,7 +22,7 @@ class RecordListImplemented(RecordList):
         for record in self.records:
             self.usrList.append(User(record[0], record[1], record[2]))
         return self.usrList
-        
+
 
 class RecordListProxy(RecordList):
     def __init__(self):
@@ -35,7 +39,7 @@ class User:
         self.id = uid
         self.name = name
         self.age = age
-    
+
     def getID(self):
         return self.id
 
@@ -44,16 +48,17 @@ class User:
 
     def getAge(self):
         return self.age
-    
+
     def __str__(self):
         return f"ID: {self.id} | Name: {self.name}\t | Age: {self.age}"
 
-print(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2)
+
+print("Memory used before using the object:",round(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2, 2), "MiBs")
 # driver code
 recordList = RecordListProxy()
 
 print('\nFeching user list...\n')
-usrList = recordList.getUserList() # this will load the data from the database
-print(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2)
+usrList = recordList.getUserList()  # this will load the data from the database
+print("Memory used after using the object:",round(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2, 2), "MiBs\nBelow are 6 records from the database:\n")
 for x in range(6):
     print(usrList[x])
