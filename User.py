@@ -1,9 +1,9 @@
 
 class User:
-    def __init__(self, uid, name, age):
-        self.id = uid
+    def __init__(self, name, nationality, dob):
         self.name = name
-        self.age = age
+        self.nationality = nationality
+        self.dob = dob
 
     def getID(self):
         return self.id
@@ -15,4 +15,4 @@ class User:
         return self.age
 
     def __str__(self):
-        return f"ID: {self.id} | Name: {self.name}\t | Age: {self.age}"
+        return f"Name: {self.name} | Nationality: {self.nationality}\t | DOB: {self.dob}"
