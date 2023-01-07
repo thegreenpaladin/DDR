@@ -7,7 +7,10 @@ class RecordListImplemented(RecordList):
         self.mydb = mysql.connector.connect(
             host="localhost", user="root", password="", database="ddrproject")
         self.mycursor = self.mydb.cursor()
-        self.mycursor.execute("SELECT * FROM records")
+        try:
+            self.mycursor.execute("SELECT * FROM records")
+        except:
+            print('The connection to the Database Server could not be established.\n Please make sure your Database Server is on, and run the "RecordAdder.py" file again. Database will automatically be created.')
 
     def getUserList(self):
         self.usrList = []
